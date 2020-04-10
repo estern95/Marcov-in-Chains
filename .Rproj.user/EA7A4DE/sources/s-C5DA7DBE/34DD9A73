@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1586488584811.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2534660936",
+    "id" : "34DD9A73",
+    "lastKnownWriteTime" : 1586495541,
+    "last_content_update" : 1586495541103,
+    "path" : "~/Documents/GitHub/alice_in_marcov/markov.jl",
+    "project_path" : "markov.jl",
+    "properties" : {
+        "cursorPosition" : "0,37",
+        "scrollLine" : "0"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "text"
+}

@@ -1,0 +1,27 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1586498038562.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "FC69D8F1",
+    "lastKnownWriteTime" : 4513492099,
+    "last_content_update" : 1586498038562,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "createProfile" : true,
+        "htmlLocalPath" : "/Users/ericstern/Documents/GitHub/alice_in_marcov/.Rproj.user/EA7A4DE/profiles-cache/file39d810c6588a.html",
+        "htmlPath" : "profiles/file39d810c6588a.html",
+        "name" : "Profile2"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_prof"
+}

@@ -1,0 +1,1 @@
+ngram(s, n) = map(x -> reduce(*, x), collect(zip((Iterators.drop(s, k) for k = 0:n-1)...)))

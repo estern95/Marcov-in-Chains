@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1586485728563.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "54CFADD4",
+    "lastKnownWriteTime" : 1586498586,
+    "last_content_update" : 1586498586947,
+    "path" : "~/Documents/GitHub/alice_in_marcov/markov_chainer.R",
+    "project_path" : "markov_chainer.R",
+    "properties" : {
+        "cursorPosition" : "61,2",
+        "scrollLine" : "55"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

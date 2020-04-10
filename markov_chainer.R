@@ -12,6 +12,7 @@
 library(magrittr)
 library(stringr)
 library(purrr)
+library(JuliaCall)
 # testing_corpus <- "A Markov process is a stochastic process that satisfies the Markov property[1] (sometimes characterized as memorylessness). In simpler terms, a Markov process is a process for which one can make predictions for its future based solely on its present state just as well as one could knowing the process's 
 # full history.[11] In other words, conditional on the present state of the system, its future and past states 
 # are independent. Markov chain is a type of Markov process that has either a discrete state space or a discrete 
@@ -33,7 +34,7 @@ testing_corpus2 <- pdftools::pdf_text(link) %>%
 
 # this generates a marcov chain based on a set size of ngrams, max length, and a corpus
 marcov_generator <- function(seeder, max, corpus) {
-  n = length(strsplit(seeder, "\\s")[[1]]) # strsplit returns a nested object idk
+  n = length(strsplit(seeder, "")[[1]]) # strsplit returns a nested object idk
   grams = ngrammer(n, corpus)
   
   chainer <- function(this_gram = seeder, length = max, dict = grams, chain = c()) {
@@ -52,19 +53,26 @@ marcov_generator <- function(seeder, max, corpus) {
     chainer(this_gram = next_gram, length = max, dict = grams, chain = chain)
   }
   
-  return(paste(c(seeder, chainer()), collapse = " "))
+  return(paste(c(seeder, chainer()), collapse = ""))
 }
    
 # this is an ngram generator. It takes a length of ngram n and a corpus to create ngrams. Returns a list of ngrams
 
 ngrammer <- function(n, corpus) {
-   # unnest_tokens(corpus, unigrams, test, token = 'ngrams', n = n)$unigrams 
-  list_tokens <- strsplit(corpus, "\\s")[[1]]
-  grams <- character(length = length(list_tokens))
-  for (i in seq_along(list_tokens)) {
-    grams <- c(grams, paste(list_tokens[i:(i+n-1)], collapse = " "))  
-  }
-  return(grams)
+  
+  # list_tokens <- strsplit(corpus, "")[[1]]
+  # grams <- character(length = length(list_tokens))
+  # for (i in seq_along(list_tokens)) {
+  #   grams <- c(grams, paste(list_tokens[i:(i+n-1)], collapse = ""))
+  # }
+  # return(grams)
+  
+  julia_assign('s', corpus)
+  julia_source("markov.jl")
+  outJLT <- julia_eval(sprintf('ngram(s, %d)', n), need_return = "R")
+
+  return(outJLT)
+
 }
 
-marcov_generator(seeder = "she was", max = 200, corpus = testing_corpus2) %>% cat()
+marcov_generator(seeder = "Alice", max = 200, corpus = testing_corpus2) %>% cat()
