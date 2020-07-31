@@ -21,9 +21,10 @@ library(JuliaCall)
 # state space (thus regardless of the nature of time),[13][14][15][16] but it is also common to define a Markov 
 # chain as having discrete time in either countable or continuous state space (thus regardless of the state space)."
 # 
-link <- 'https://www.gutenberg.org/files/11/11-pdf.pdf'
+link <- 'https://www.gutenberg.org/files/11/11-0.txt'
 
-testing_corpus2 <- pdftools::pdf_text(link) %>%
+testing_corpus2 <-  RCurl::getURL(link, 
+                          ssl.verifyhost=FALSE, ssl.verifypeer=FALSE) %>%
   purrr::discard(~str_detect(.x, 'Free eBooks at Planet eBook.com [0-9+]')) %>%
   map(~str_remove_all(.x, '[0-9+]') %>%
         str_remove_all("Free eBooks at Planet eBook\\.com") %>%
@@ -60,6 +61,7 @@ marcov_generator <- function(seeder, max, corpus) {
 
 ngrammer <- function(n, corpus) {
   
+  # old inefficinet R code
   # list_tokens <- strsplit(corpus, "")[[1]]
   # grams <- character(length = length(list_tokens))
   # for (i in seq_along(list_tokens)) {
@@ -67,6 +69,7 @@ ngrammer <- function(n, corpus) {
   # }
   # return(grams)
   
+  # slick new julia code
   julia_assign('s', corpus)
   julia_source("markov.jl")
   outJLT <- julia_eval(sprintf('ngram(s, %d)', n), need_return = "R")
@@ -75,4 +78,3 @@ ngrammer <- function(n, corpus) {
 
 }
 
-marcov_generator(seeder = "Alice", max = 200, corpus = testing_corpus2) %>% cat()

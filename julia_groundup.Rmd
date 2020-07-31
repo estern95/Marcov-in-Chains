@@ -1,0 +1,90 @@
+---
+title: "Hello Julia"
+author: "Eric Stern"
+date: "4/10/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Testing Julia
+
+I recently used julia is speed up a chunk of code over 2 hundred fold and was quite impressed. Since Julia is availible in R notebooks, I wanted to spend a little time experimenting.
+
+## What is Julia
+
+Julia is a relatively new language purpose built for data science. The reason it has a lot of appeal is that it is fast. And not even fast compared to other data science languages like R or Python; fast compared to Scala or C++. In a microbenchmark by the Julia Core team, Julia clocked a benchmark [comparable to C](https://julialang.org/benchmarks/). The benefits of Julia over languages like C++ or C is that there is very little boiler plate code due to it's optional typing. The syntax is closer to R than to C++. 
+
+## Quick Note
+
+I will be using an R notebook to write Julia using the `JuliaCall` package to manage to the translation. We can also use JuliaCall to write R code, similar to how you would use RCPP or reticulate.
+
+## The Basics
+
+```{julia}
+a = sqrt(2); # minimal example
+```
+
+RMarkdown uses JuliaCall - an R package that performs translation between R and Julia Types. It does pretty well. For instance we can take a character vector and send it to julia using `julia_assign`.
+
+```{r}
+library(JuliaCall)
+
+julia_assign(x = 'fizzbuzz', value = c('foo', 'fizz', 'buzz'))
+```
+
+This gets translated into a 1d array of strings in julia:
+
+```{julia}
+fizzbuzz
+```
+
+## Toy Analysis
+
+Using `mtcars` lets build a quick modelling pipeline in julia. First we have to import a few packages. Julia uses the command `using` to load libraries.
+
+```{julia}
+using DataFrames, GLM
+```
+
+Now we can use `JuliaCall` to load some data into DataFrames in Julia.
+
+```{r}
+julia_assign('mtcars', mtcars)
+```
+
+This R function assigns the R dataframe object to a julia dataframe object called 'mtcars'. 
+## Modelling
+
+Now back in julia, let's do some work with dataframes, build some plots, and eventually run a model.
+
+### Summary Statistics
+
+`describe` is similar to R's `summary` function but returns a dataframe rather than a list.
+
+```{julia}
+describe(mtcars)
+```
+
+
+### Plotting
+
+```{julia}
+#import Pkg; Pkg.add("StatsPlots")
+using StatsPlots: @df; using IndexedTables;
+@df mtcars scatter(
+    :mpg,
+    :hp)
+
+```
+
+
+
+```{julia}
+
+lm_mod = fit(LinearModel, @formula(mpg ~ hp + wt + qsec), mtcars)
+
+```
+
